@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+#class files
+
+class-run.sh
+class-sub.sh
