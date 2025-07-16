@@ -39,11 +39,20 @@ def main():
         for player in drawable:
             player.draw(screen)
         updatable.update(dt)
+        #33for roids in asteroids_group:
+           # for shot in shots_group:
+            #    if shot.collide(roids):
+             #       pygame.sprite.Sprite.kill(roids)
+              #      pygame.sprite.Sprite.kill(shot)
         for roids in asteroids_group:
             if my_player.collide(roids) == True:
                 print("game over")
                 time.sleep(1)
                 sys.exit()
+            for shot in shots_group:
+                if shot.collide(roids):
+                    shot.kill()
+                    roids.split()
         pygame.display.flip()
         dt = (clock.tick(60) / 1000)
     
