@@ -6,7 +6,9 @@ from constants import *
 from player import *
 from asteroid import *
 from asteroidfield import *
-
+from circleshape import *
+import sys
+import time
 
 
 
@@ -34,6 +36,11 @@ def main():
         for player in drawable:
             player.draw(screen)
         updatable.update(dt)
+        for roids in asteroids_group:
+            if my_player.collide(roids) == True:
+                print("game over")
+                time.sleep(1)
+                sys.exit()
         pygame.display.flip()
         dt = (clock.tick(60) / 1000)
     
