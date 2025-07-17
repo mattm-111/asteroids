@@ -1,7 +1,9 @@
 from constants import *
 from circleshape import *
 from shot import *
+from nuke import *
 import pygame
+import sys
 
 
 class Player(CircleShape):
@@ -9,6 +11,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.cooldown = 0
+        self.nuke_cooldown = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -41,6 +44,12 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             if self.shot_timer(dt):
                 self.shoot()
+        if keys[pygame.K_b]:
+            if self.nuke_timer(dt):
+                self.nuke()
+        if keys[pygame.K_ESCAPE]:
+            print("Manual Exit Key Pressed")
+            sys.exit()
 
 
 ## gives a movement vector,  called in update()
@@ -52,6 +61,11 @@ class Player(CircleShape):
         color = "red"
         shot = Shot(self.position.x, self.position.y)
         shot.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+    def nuke(self):
+        color = 'red'
+        nuke = Nuke(self.position.x, self.position.y)
+        nuke.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * NUKE_SPEED
     
     def shot_timer(self, dt):
         if self.cooldown <= 0:
@@ -60,6 +74,14 @@ class Player(CircleShape):
         else:
             self.cooldown -= dt
             return False
+        
+
+    def nuke_timer(self,dt):
+        if self.nuke_cooldown <= 0:
+            self.nuke_cooldown = NUKE_COOLDOWN
+            return True
+        
+
         
         
         
