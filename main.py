@@ -67,13 +67,9 @@ def main():
         updatable.update(dt)
         for roids in asteroids_group:
             if my_player.collide(roids) == True and my_player.can_be_damaged == True and my_player.lives > 1:
-                my_player.lose_life()
-                my_player.reset_player_coords()
-                my_player.grace_period()
+                my_player.on_hit()
             elif my_player.collide(roids) == True and my_player.can_be_damaged == True and my_player.lives == 1:
-                print("game over")
-                death_screen(screen, my_player)
-                ui_text(screen, my_player)
+                my_player.on_death(screen)
                 pygame.display.flip()
                 time.sleep(3)
                 sys.exit()
@@ -92,11 +88,7 @@ def main():
                     nuke.detonate(dt)
                     nuke.kill()
                     my_player.score_up()
-        my_player.nuke_cooldown -= dt
-        my_player.grace_timer -= dt
-        my_player.check_grace()
-        ui_text(screen, my_player)
-        life_text(screen, my_player)
+        my_player.each_loop(screen, dt)
         pygame.display.flip()
         dt = (clock.tick(60) / 1000)
     

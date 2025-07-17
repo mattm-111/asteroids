@@ -4,6 +4,7 @@ from constants import *
 from circleshape import CircleShape
 from shot import Shot
 from nuke import NuclearMissleBomb
+from text import death_screen, ui_text, life_text
 
 
 class Player(CircleShape):
@@ -78,9 +79,7 @@ class Player(CircleShape):
         if self.cooldown <= 0:
             self.cooldown = PLAYER_SHOOT_COOLDOWN
             return True
-        else:
-            self.cooldown -= dt
-            return False
+        
         
 
     def nuke_timer(self,dt):
@@ -91,21 +90,34 @@ class Player(CircleShape):
     def score_up(self):
         self.score += 100
 
-    def lose_life(self):
-        self.lives -= 1
-        self.can_be_damaged = False
-
-    def reset_player_coords(self):
-        self.position.x = (SCREEN_WIDTH / 2)
-        self.position.y = (SCREEN_HEIGHT / 2)
-
-    def grace_period(self):
-        self.grace_timer = PLAYER_GRACE
-
     def check_grace(self):
         if self.grace_timer <= 0:
             self.can_be_damaged = True
+
+    def on_hit(self):
+        self.lives -= 1
+        self.can_be_damaged = False
+        self.position.x = (SCREEN_WIDTH / 2)
+        self.position.y = (SCREEN_HEIGHT / 2)
+        self.grace_timer = PLAYER_GRACE
+
+    def on_death(self, screen):
+        print("game over")
+        death_screen(screen, self)
+        ui_text(screen, self)
+
+    def each_loop(self, screen, dt):
+        self.nuke_cooldown -= dt
+        self.cooldown -= dt
+        self.grace_timer -= dt
+        if self.grace_timer <= 0:
+            self.can_be_damaged = True
+        ui_text(screen, self)
+        life_text(screen, self)
     
+
+
+            
         
         
 
