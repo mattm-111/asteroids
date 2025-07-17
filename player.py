@@ -14,6 +14,8 @@ class Player(CircleShape):
         self.nuke_cooldown = 0
         self.score = 0
         self.lives = 3
+        self.can_be_damaged = True
+        self.grace_timer = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -26,7 +28,10 @@ class Player(CircleShape):
 
 ## draws player object, once per frame
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        if self.can_be_damaged == True:
+            pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        else:
+            pygame.draw.polygon(screen, "green", self.triangle(), 2)
 
 ## rotates player istance, called from update method
     def rotate(self, dt):
@@ -88,9 +93,19 @@ class Player(CircleShape):
 
     def lose_life(self):
         self.lives -= 1
+        self.can_be_damaged = False
 
+    def reset_player_coords(self):
+        self.position.x = (SCREEN_WIDTH / 2)
+        self.position.y = (SCREEN_HEIGHT / 2)
 
-        
+    def grace_period(self):
+        self.grace_timer = PLAYER_GRACE
+
+    def check_grace(self):
+        if self.grace_timer <= 0:
+            self.can_be_damaged = True
+    
         
         
 

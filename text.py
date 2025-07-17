@@ -10,7 +10,8 @@ green = (0, 255, 0)
 
 font_d = pygame.font.SysFont(None, 144)
 font = pygame.font.Font('couri.ttf', 36)
-death_text = font_d.render(f"YOU DIED", True, red)
+death_text1 = font_d.render(f"ALL YOUR BASE IS", True, red)
+death_text2 = font_d.render(f'BELONG TO US!!!!!', True, red)
 score_text = font.render(f'Score:', True, white)
 nuke_text = font.render(f'Nuke  ', True, white)
 nuke_ready_text = font.render(f'Ready!', True, green)
@@ -29,11 +30,11 @@ def ui_text(screen, myplayer):
     nuke_cooldown_text = font.render(f'{myplayer.nuke_cooldown:.2f}', True, (255, 0, 0))
     screen.blit(score_text, (10, 10))
     screen.blit(score_num, (10, 50))
-    screen.blit(nuke_text, (1050, 660))
+    screen.blit(nuke_text, (1040, 670))
     if myplayer.nuke_cooldown <= 0:
-        screen.blit(nuke_ready_text, (1150, 660))
+        screen.blit(nuke_ready_text, (1140, 670))
     else:
-        screen.blit(nuke_cooldown_text, (1150, 660))
+        screen.blit(nuke_cooldown_text, (1140, 670))
 
 def life_text(screen, myplayer):
     screen.blit(player_life_text, (1150,10))
@@ -52,7 +53,8 @@ def life_text(screen, myplayer):
 
 
 def death_screen(screen, myplayer):
-    screen.blit(death_text, ((SCREEN_WIDTH / 4), (SCREEN_HEIGHT / 4)))
+    screen.blit(death_text1, (150, 225))
+    screen.blit(death_text2, (150, 425))
 
 
    

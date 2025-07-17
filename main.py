@@ -56,7 +56,6 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
-        
         for shockwave in shockwave_group:
             if shockwave.radius >= 15 and shockwave.radius <300:
                 shockwave.grow_shockwave(dt)
@@ -67,9 +66,14 @@ def main():
             player.draw(screen)
         updatable.update(dt)
         for roids in asteroids_group:
-            if my_player.collide(roids) == True:
+            if my_player.collide(roids) == True and my_player.can_be_damaged == True and my_player.lives > 1:
+                my_player.lose_life()
+                my_player.reset_player_coords()
+                my_player.grace_period()
+            elif my_player.collide(roids) == True and my_player.can_be_damaged == True and my_player.lives == 1:
                 print("game over")
                 death_screen(screen, my_player)
+                ui_text(screen, my_player)
                 pygame.display.flip()
                 time.sleep(3)
                 sys.exit()
@@ -89,7 +93,8 @@ def main():
                     nuke.kill()
                     my_player.score_up()
         my_player.nuke_cooldown -= dt
-      
+        my_player.grace_timer -= dt
+        my_player.check_grace()
         ui_text(screen, my_player)
         life_text(screen, my_player)
         pygame.display.flip()
