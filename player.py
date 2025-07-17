@@ -1,9 +1,9 @@
-from constants import *
-from circleshape import *
-from shot import *
-from nuke import *
 import pygame
 import sys
+from constants import *
+from circleshape import CircleShape
+from shot import Shot
+from nuke import Nuke
 
 
 class Player(CircleShape):

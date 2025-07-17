@@ -1,20 +1,18 @@
 import pygame
-# import the connect_database function
-# and the database_version variable
-# from database.py into the current file
-from constants import *
-from player import *
-from asteroid import *
-from asteroidfield import *
-from circleshape import *
-from shot import *
 import sys
 import time
+from constants import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
+from nuke import Nuke
+from text import ui_text, death_screen
+
 
 
 
 def main():
-    pygame.init()
     pygame.init()
     pygame.font.init()
     font = pygame.font.Font('couri.ttf', 36)
@@ -42,7 +40,7 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
     score = 0
-   # round_nuke_cooldown = round(my_player.nuke_cooldown, 2)
+   
     
     
     ##score keeping function
@@ -54,26 +52,14 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
+        ui_text(screen, my_player, score)
         for player in drawable:
             player.draw(screen)
         updatable.update(dt)
-        score_text = font.render(f'Score:', True, (255, 255, 255))
-        score_num = font.render(f'{score}', True, (255, 255, 255))
-        death_text = font_d.render(f"YOU DIED", True, (255, 0, 0))
-        nuke_text = font.render(f'Nuke  ', True, (255, 255, 255))
-        nuke_cooldown_text = font.render(f'{my_player.nuke_cooldown:.2f}', True, (255, 0, 0))
-        nuke_ready_text = font.render(f'Ready!', True, (0, 255, 0))
-        screen.blit(score_text, (10, 10))
-        screen.blit(score_num, (10, 50))
-        screen.blit(nuke_text, (1050, 660))
-        if my_player.nuke_cooldown <= 0:
-            screen.blit(nuke_ready_text, (1150, 660))
-        else:
-            screen.blit(nuke_cooldown_text, (1150, 660))
         for roids in asteroids_group:
             if my_player.collide(roids) == True:
                 print("game over")
-                screen.blit(death_text, ((SCREEN_WIDTH / 4), (SCREEN_HEIGHT / 4)))
+                death_screen(screen, my_player)
                 pygame.display.flip()
                 time.sleep(3)
                 sys.exit()
