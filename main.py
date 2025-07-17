@@ -6,7 +6,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
-from nuke import Nuke
+from nuke import *
 from text import ui_text, death_screen
 
 
@@ -27,11 +27,14 @@ def main():
     asteroids_group = pygame.sprite.Group()
     shots_group = pygame.sprite.Group()
     nuke_group = pygame.sprite.Group()
+    shockwave_group = pygame.sprite.Group()
     AsteroidField.containers = (updatable)
     Asteroid.containers = (asteroids_group, updatable, drawable)
     Player.containers = (updatable, drawable)
     Shot.containers = (shots_group, updatable, drawable)
     Nuke.containers = (nuke_group, updatable, drawable)
+    Splosion.containers = (shockwave_group)
+
     
     ##Init some vars
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -43,7 +46,7 @@ def main():
    
     
     
-    ##score keeping function
+   
     
 
     ## Game Loop
@@ -53,6 +56,12 @@ def main():
                 return
         screen.fill("black")
         ui_text(screen, my_player, score)
+        for shockwave in shockwave_group:
+            if shockwave.radius >= 15 and shockwave.radius <300:
+                shockwave.grow_shockwave(dt)
+                shockwave.draw(screen)
+            else:
+                shockwave.kill()        
         for player in drawable:
             player.draw(screen)
         updatable.update(dt)
@@ -68,9 +77,15 @@ def main():
                     shot.kill()
                     roids.split()
                     score += 100
+            for shockwave in shockwave_group:
+                if shockwave.collide(roids):
+                    roids.split()
+                    score += 100
             for nuke in nuke_group:
                 if nuke.collide(roids):
                     roids.split()
+                    nuke.detonate(dt)
+                    nuke.kill()
                     score += 100
         my_player.nuke_cooldown -= dt
       
