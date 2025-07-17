@@ -5,7 +5,7 @@ import pygame
 
 
 
-class Nuke(CircleShape):
+class NuclearMissleBomb(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, NUKE_RADIUS)
 

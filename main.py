@@ -6,8 +6,8 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
-from nuke import *
-from text import ui_text, death_screen
+from nuke import NuclearMissleBomb, Splosion
+from text import ui_text, death_screen, life_text
 
 
 
@@ -32,7 +32,7 @@ def main():
     Asteroid.containers = (asteroids_group, updatable, drawable)
     Player.containers = (updatable, drawable)
     Shot.containers = (shots_group, updatable, drawable)
-    Nuke.containers = (nuke_group, updatable, drawable)
+    NuclearMissleBomb.containers = (nuke_group, updatable, drawable)
     Splosion.containers = (shockwave_group)
 
     
@@ -42,7 +42,8 @@ def main():
     my_asteroids = AsteroidField()
     clock = pygame.time.Clock()
     dt = 0
-    score = 0
+    
+    
    
     
     
@@ -55,7 +56,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
-        ui_text(screen, my_player, score)
+        
         for shockwave in shockwave_group:
             if shockwave.radius >= 15 and shockwave.radius <300:
                 shockwave.grow_shockwave(dt)
@@ -76,20 +77,21 @@ def main():
                 if shot.collide(roids):
                     shot.kill()
                     roids.split()
-                    score += 100
+                    my_player.score_up()
             for shockwave in shockwave_group:
                 if shockwave.collide(roids):
                     roids.split()
-                    score += 100
+                    my_player.score_up()
             for nuke in nuke_group:
                 if nuke.collide(roids):
                     roids.split()
                     nuke.detonate(dt)
                     nuke.kill()
-                    score += 100
+                    my_player.score_up()
         my_player.nuke_cooldown -= dt
       
-        
+        ui_text(screen, my_player)
+        life_text(screen, my_player)
         pygame.display.flip()
         dt = (clock.tick(60) / 1000)
     

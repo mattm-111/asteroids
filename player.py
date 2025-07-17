@@ -3,7 +3,7 @@ import sys
 from constants import *
 from circleshape import CircleShape
 from shot import Shot
-from nuke import Nuke
+from nuke import NuclearMissleBomb
 
 
 class Player(CircleShape):
@@ -12,6 +12,8 @@ class Player(CircleShape):
         self.rotation = 0
         self.cooldown = 0
         self.nuke_cooldown = 0
+        self.score = 0
+        self.lives = 3
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -64,7 +66,7 @@ class Player(CircleShape):
 
     def nuke(self):
         color = 'red'
-        nuke = Nuke(self.position.x, self.position.y)
+        nuke = NuclearMissleBomb(self.position.x, self.position.y)
         nuke.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * NUKE_SPEED
     
     def shot_timer(self, dt):
@@ -81,6 +83,12 @@ class Player(CircleShape):
             self.nuke_cooldown = NUKE_COOLDOWN
             return True
         
+    def score_up(self):
+        self.score += 100
+
+    def lose_life(self):
+        self.lives -= 1
+
 
         
         
