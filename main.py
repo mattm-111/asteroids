@@ -55,7 +55,7 @@ def main():
         my_player.update_timers(screen, dt)                                                                            #updates cooldown timers and refreshes the render for on-screen timers
         pygame.display.flip()                                                                                          #refreshes screen
         dt = (clock.tick(60) / 1000)                                                                                   #clock based on 60FPS
-    
+        
 
 
 

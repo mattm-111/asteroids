@@ -111,7 +111,7 @@ class Player(CircleShape):
 
     def on_death(self, screen):
         print("game over")
-        death_screen(screen, self)
+        death_screen(screen)
         ui_text(screen, self)
 
 
