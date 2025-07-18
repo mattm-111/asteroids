@@ -50,10 +50,10 @@ class Player(CircleShape):
         if keys[pygame.K_DOWN]:
             self.move((dt * -1))
         if keys[pygame.K_SPACE]:
-            if self.shot_timer(dt):
+            if self.shot_timer(dt) and self.can_be_damaged:
                 self.shoot()
         if keys[pygame.K_b]:
-            if self.nuke_timer(dt):
+            if self.nuke_timer(dt) and self.can_be_damaged:
                 self.nuke()
         if keys[pygame.K_ESCAPE]:
             print("Manual Exit Key Pressed")
@@ -65,21 +65,23 @@ class Player(CircleShape):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
+
     def shoot(self):
         color = "red"
         shot = Shot(self.position.x, self.position.y)
         shot.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
+
     def nuke(self):
         color = 'red'
         nuke = NuclearMissleBomb(self.position.x, self.position.y)
         nuke.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * NUKE_SPEED
+
     
     def shot_timer(self, dt):
         if self.cooldown <= 0:
             self.cooldown = PLAYER_SHOOT_COOLDOWN
             return True
-        
         
 
     def nuke_timer(self,dt):
@@ -87,12 +89,15 @@ class Player(CircleShape):
             self.nuke_cooldown = NUKE_COOLDOWN
             return True
         
+        
     def score_up(self):
         self.score += 100
+
 
     def check_grace(self):
         if self.grace_timer <= 0:
             self.can_be_damaged = True
+
 
     def on_hit(self):
         self.lives -= 1
@@ -101,12 +106,14 @@ class Player(CircleShape):
         self.position.y = (SCREEN_HEIGHT / 2)
         self.grace_timer = PLAYER_GRACE
 
+
     def on_death(self, screen):
         print("game over")
         death_screen(screen, self)
         ui_text(screen, self)
 
-    def each_loop(self, screen, dt):
+
+    def update_timers(self, screen, dt):
         self.nuke_cooldown -= dt
         self.cooldown -= dt
         self.grace_timer -= dt

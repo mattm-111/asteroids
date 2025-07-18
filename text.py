@@ -22,7 +22,7 @@ player_life_one = font.render(f'O', True, white)
 player_life_dead = font.render(f' ', True, white)
 
 
-
+###############################
 
 
 def ui_text(screen, myplayer):

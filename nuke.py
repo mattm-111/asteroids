@@ -18,11 +18,13 @@ class NuclearMissleBomb(CircleShape):
     def update(self, dt):
         self.position += (self.velocity * dt)
 
+
     def detonate(self,dt):
         shockwave = Splosion(self.position.x, self.position.y, SHOCKWAVE_START_RADIUS)
 
     
-
+###################################################
+    
 
 class Splosion(CircleShape):
     def __init__(self, x, y, radius):

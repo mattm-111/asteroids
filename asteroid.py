@@ -10,6 +10,7 @@ class Asteroid(CircleShape):
         super().__init__(x, y, radius)
         self.radius = radius
 
+
     def draw(self, screen):
         color = "white"
         pygame.draw.circle(screen, color, self.position, self.radius, 2)
@@ -17,6 +18,7 @@ class Asteroid(CircleShape):
 
     def update(self, dt):
         self.position += (self.velocity * dt)
+
 
     def split(self):
         self.kill()
@@ -29,7 +31,6 @@ class Asteroid(CircleShape):
             split_radius = self.radius - ASTEROID_MIN_RADIUS
             self.spawn_new(split_radius, self.position, pos_velocity)
             self.spawn_new(split_radius, self.position, neg_velocity)
-
 
 
     def spawn_new(self, radius, position, velocity):
