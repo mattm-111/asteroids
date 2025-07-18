@@ -50,10 +50,10 @@ class Player(CircleShape):
         if keys[pygame.K_DOWN]:
             self.move((dt * -1))
         if keys[pygame.K_SPACE]:
-            if self.shot_timer(dt) and self.can_be_damaged:
+            if self.shot_timer() and self.can_be_damaged:
                 self.shoot()
         if keys[pygame.K_b]:
-            if self.nuke_timer(dt) and self.can_be_damaged:
+            if self.nuke_timer() and self.can_be_damaged:
                 self.nuke()
         if keys[pygame.K_ESCAPE]:
             print("Manual Exit Key Pressed")
@@ -78,13 +78,14 @@ class Player(CircleShape):
         nuke.velocity =  pygame.Vector2(0, 1).rotate(self.rotation) * NUKE_SPEED
 
     
-    def shot_timer(self, dt):
+    #shot timer,  will return true to the shoot()method if cooldown is at or below 0,  then set the timer to the cooldown constant
+    def shot_timer(self, ):
         if self.cooldown <= 0:
             self.cooldown = PLAYER_SHOOT_COOLDOWN
             return True
         
 
-    def nuke_timer(self,dt):
+    def nuke_timer(self,):
         if self.nuke_cooldown <= 0:
             self.nuke_cooldown = NUKE_COOLDOWN
             return True
@@ -94,11 +95,12 @@ class Player(CircleShape):
         self.score += 100
 
 
+#checks grace timer to know if player should not be damagable,  happens after loss of life
     def check_grace(self):
         if self.grace_timer <= 0:
             self.can_be_damaged = True
 
-
+#logic after player getting hit,   removes a life and player enters a grace period
     def on_hit(self):
         self.lives -= 1
         self.can_be_damaged = False
@@ -113,6 +115,7 @@ class Player(CircleShape):
         ui_text(screen, self)
 
 
+#updates all tracked timers,   happens once per game loop
     def update_timers(self, screen, dt):
         self.nuke_cooldown -= dt
         self.cooldown -= dt

@@ -7,7 +7,6 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
 from nuke import NuclearMissleBomb, Splosion
-from text import ui_text, death_screen, life_text
 from checks import asteroid_collision_check, shockwave_growth, draw_sprites
 
 
@@ -20,7 +19,7 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     
-    ## Create some pygame groups and containers
+    ## Create some pygame groups and containers for easier loops through class objects
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids_group = pygame.sprite.Group()

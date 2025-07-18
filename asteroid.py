@@ -19,7 +19,7 @@ class Asteroid(CircleShape):
     def update(self, dt):
         self.position += (self.velocity * dt)
 
-
+## on impact with shots, nukes or shockwaves will delete itself.  if it isn't an already "small" asteroid will spawn two more smaller asteroids moving slightly faster in mirrored vectors.  
     def split(self):
         self.kill()
         if self.radius <= ASTEROID_MIN_RADIUS:

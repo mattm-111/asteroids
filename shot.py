@@ -9,6 +9,7 @@ class Shot(CircleShape):
         super().__init__(x, y, SHOT_RADIUS)
 
 
+#draws itself and updates location based on dt clock time
     def draw(self, screen):
         color = "red"
         pygame.draw.circle(screen, color, self.position, self.radius, 2)

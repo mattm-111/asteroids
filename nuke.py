@@ -19,6 +19,7 @@ class NuclearMissleBomb(CircleShape):
         self.position += (self.velocity * dt)
 
 
+##creates a shockwave with splosion class,  sets to start radius which will then be pickup by the shockwave grow check to be passed to the grow shockwave method
     def detonate(self,dt):
         shockwave = Splosion(self.position.x, self.position.y, SHOCKWAVE_START_RADIUS)
 
@@ -31,6 +32,7 @@ class Splosion(CircleShape):
         super().__init__(x, y, radius)
 
 
+#grows shockwave based on the dt clock,  up to the max radius listed in constants.   the shockwave check handles the max values
     def grow_shockwave(self,dt):
         r = (self.radius + (dt * 200))
         x = self.position.x
